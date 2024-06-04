@@ -8,10 +8,11 @@ import (
 	"net/http"
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
-	client "github.com/cohere-ai/cohere-go/v2/client"
+	coClient "github.com/cohere-ai/cohere-go/v2/client"
+	wire "github.com/shayansadeghieh/recipe-generator/wire"
 )
 
-func ChatRequest(w http.ResponseWriter, req *http.Request, co *client.Client) {
+func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client) {
 	if req.Body == nil {
 		log.Fatal("request body is empty")
 	}
@@ -26,23 +27,24 @@ func ChatRequest(w http.ResponseWriter, req *http.Request, co *client.Client) {
 	}
 
 	// Decode the body into message var
-	var message map[string]string
+	var message wire.ChatRequest
 	err = json.Unmarshal(body, &message)
 	if err != nil {
 		// Handle error decoding JSON
 		log.Fatalf("error unmarshaling request body %v", err)
 	}
 
-	messageStr := message["message"] // Extract the message from the decoded JSON
-
 	resp, err := co.Chat(
 		context.TODO(),
 		&cohere.ChatRequest{
-			Message: messageStr,
+			Message: message.Message,
 		},
 	)
 	if err != nil {
 		log.Fatalf("error receiving response from ChatRequest %v", err)
+	}
+	if len(resp.Text) == 0 {
+		log.Fatalf("response text from ChatRequest is empty")
 	}
 
 	// Directly write the text to the response writer
