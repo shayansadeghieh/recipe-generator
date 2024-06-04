@@ -38,6 +38,9 @@ func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client) 
 		context.TODO(),
 		&cohere.ChatRequest{
 			Message: message.Message,
+			Connectors: []*cohere.ChatConnector{
+				{Id: "web-search"},
+			},
 		},
 	)
 	if err != nil {
