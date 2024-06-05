@@ -2,6 +2,10 @@
 
 As someone who struggles with digestive issues, I struggle to find recipes that meet my dietary needs. I created this GenAI application which provides recipes, ingredients and instructions based on the type of request I make. 
 
+## Demo
+![Demo](assets/recipe-generator.gif)
+
+
 ## Tech Stack 
 This repo is a genAI recipe generator for nutritious meals. Tech stack:
 
