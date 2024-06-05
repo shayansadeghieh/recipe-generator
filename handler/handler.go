@@ -14,6 +14,8 @@ import (
 	wire "github.com/shayansadeghieh/recipe-generator/wire"
 )
 
+var prompt string = "You are a top-tier chef specializing in recipes geared towards diets, allergies, illnesses and conditions. A friend has asked you %s. Use the recipe name (%s), recipe ingredients (%s) and recipe instructions (%s) to provide the user with a recommendation for a nutritional meal. Make sure to include all of the amounts in the ingredients and instructions. Please be brief. "
+
 func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client, context context.Context) {
 	if req.Body == nil {
 		log.Fatal("request body is empty")
@@ -41,21 +43,23 @@ func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client, 
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(embeddings)
 
-	// TODO: Use embeddings to query vector DB
+	pineconeResp, err := dao.QueryVectorDB(embeddings[0])
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	resp, err := co.Chat(
 		context,
 		&cohere.ChatRequest{
-			Message: message.Message,
+			Message: fmt.Sprintf(prompt, message.Message, pineconeResp.Matches[0].Metadata.RecipeName, pineconeResp.Matches[0].Metadata.RecipeIngredients, pineconeResp.Matches[0].Metadata.RecipeInstructions),
 		},
 	)
 	if err != nil {
 		log.Fatalf("error receiving response from ChatRequest %v", err)
 	}
 	if len(resp.Text) == 0 {
-		log.Fatalf("response text from ChatRequest is empty")
+		log.Fatal("response text from ChatRequest is empty")
 	}
 
 	// Directly write the text to the response writer
