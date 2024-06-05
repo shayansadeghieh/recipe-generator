@@ -9,7 +9,7 @@ As someone who struggles with digestive issues, finding recipes that meet my die
 ## Tech Stack 
 
 - I used Cohere's Command model + some prompt engineering for the bot.
-- I used Cohere's embed-english-v3.0 embedding model for generating embeddings for the vector DB and during the API call
+- I used Cohere's embed-english-v3.0 embedding model to embed the user's request. I used the same model for generating embeddings for the vector DB.
 - I used pinecone as my vector DB. Although I used pinecone's go SDK for the creation of Pinecone indexes, their SDK was lacking sufficient documentation, so I created my own pinecone client to query the DB.  
 - My database of recipes includes some of my favourites I've found on the internet over the years. 
 
