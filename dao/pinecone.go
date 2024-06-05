@@ -27,19 +27,14 @@ func CreateIndex(indexName string, pc *pinecone.Client, ctx context.Context) err
 	return nil
 }
 
-func CheckIfIndexExists(indexName string, pc *pinecone.Client, ctx context.Context) (bool, error) {
-	indexes, err := pc.ListIndexes(ctx)
-	if err != nil {
-		return false, fmt.Errorf("error listing indexes %v", err)
-	}
-
+func CheckIfIndexExists(indexes []*pinecone.Index, indexName string, ctx context.Context) bool {
 	for _, existingIndex := range indexes {
-		if existingIndex.Name == "recipes" {
-			return true, nil
+		if existingIndex.Name == indexName {
+			return true
 		}
 	}
 
-	return false, nil
+	return false
 }
 
 type pineconeQuery struct {
