@@ -42,7 +42,7 @@ func main() {
 	co := coClient.NewClient(coClient.WithToken(apiKey))
 
 	http.HandleFunc("/chatRequest", func(w http.ResponseWriter, req *http.Request) {
-		handler.ChatRequest(w, req, co) // Pass the cohere client to the handler function
+		handler.ChatRequest(w, req, co, ctx) // Pass the cohere client to the handler function
 	})
 
 	err = http.ListenAndServe(":8080", nil)
