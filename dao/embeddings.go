@@ -13,7 +13,7 @@ func GenerateEmbeddings(text string, co *coClient.Client, context context.Contex
 	resp, err := co.Embed(
 		context,
 		&cohere.EmbedRequest{
-			Texts:     []string{"hello", "goodbye"},
+			Texts:     []string{text},
 			Model:     cohere.String("embed-english-v3.0"),
 			InputType: cohere.EmbedInputTypeSearchDocument.Ptr(),
 		},
