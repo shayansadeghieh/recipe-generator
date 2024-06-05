@@ -24,11 +24,13 @@ func main() {
 
 	ctx := context.Background()
 
+	// Ensure the indexName exists. If it doesn't create it.
 	indexName := "recipes"
-	indexExists, err := dao.CheckIfIndexExists(indexName, pc, ctx)
+	indexes, err := pc.ListIndexes(ctx)
 	if err != nil {
-		log.Fatalf("Error checking if index exists %v", err)
+		log.Fatalf("error listing indexes %v", err)
 	}
+	indexExists := dao.CheckIfIndexExists(indexes, indexName, ctx)
 
 	if !indexExists {
 		err = dao.CreateIndex(indexName, pc, ctx)
