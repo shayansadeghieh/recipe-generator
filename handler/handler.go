@@ -14,7 +14,7 @@ import (
 	wire "github.com/shayansadeghieh/recipe-generator/wire"
 )
 
-var prompt string = "You are a top-tier chef specializing in recipes geared towards diets, allergies, illnesses and conditions. A friend has asked you %s. Use the recipe name (%s), recipe ingredients (%s) and recipe instructions (%s) to provide the user with a recommendation for a nutritional meal. Make sure to include all of the amounts in the ingredients and instructions. Please be brief. "
+var prompt string = "You are a top-tier chef and foodie specializing in recipes geared towards diets, allergies, illnesses and conditions. A friend has asked you %s. Use the recipe name (%s), recipe ingredients (%s) and recipe instructions (%s) to provide the user with a recommendation for a nutritional meal. Make sure to include all of the amounts in the ingredients and instructions. Prefix every recipe with a fun introduction. Please be brief. "
 
 func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client, context context.Context) {
 	if req.Body == nil {
