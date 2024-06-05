@@ -10,7 +10,7 @@ import (
 func CreateIndex(indexName string, pc *pinecone.Client, ctx context.Context) error {
 	_, err := pc.CreateServerlessIndex(ctx, &pinecone.CreateServerlessIndexRequest{
 		Name:      indexName,
-		Dimension: 128,
+		Dimension: 1024,
 		Metric:    pinecone.Cosine,
 		Cloud:     pinecone.Aws,
 		Region:    "us-east-1",
@@ -35,5 +35,4 @@ func CheckIfIndexExists(indexName string, pc *pinecone.Client, ctx context.Conte
 	}
 
 	return false, nil
-
 }

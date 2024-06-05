@@ -3,16 +3,18 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
 	coClient "github.com/cohere-ai/cohere-go/v2/client"
+	"github.com/shayansadeghieh/recipe-generator/dao"
 	wire "github.com/shayansadeghieh/recipe-generator/wire"
 )
 
-func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client) {
+func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client, context context.Context) {
 	if req.Body == nil {
 		log.Fatal("request body is empty")
 	}
@@ -34,8 +36,17 @@ func ChatRequest(w http.ResponseWriter, req *http.Request, co *coClient.Client) 
 		log.Fatalf("error unmarshaling request body %v", err)
 	}
 
+	// Generate embeddings for the message
+	embeddings, err := dao.GenerateEmbeddings(message.Message, co, context)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(embeddings)
+
+	// TODO: Use embeddings to query vector DB
+
 	resp, err := co.Chat(
-		context.TODO(),
+		context,
 		&cohere.ChatRequest{
 			Message: message.Message,
 		},
