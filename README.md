@@ -17,12 +17,12 @@ This repo is a genAI recipe generator for nutritious meals. Tech stack:
 The project is split up into several packages:
 
 `main`: The main entrypoint to the application. It initializes the DB client, cohere client and exposes port 8080 to listen to requests.
+
 `dao`: The data access object package. This package does all things related to vector DBs including creating Pinecone indexes and querying Pinecone indexes. 
+
 `handler`: The handler package. This package handles the chat request and routes the request through the appropriate logic.
+
 `wire`: The wire package. This package holds the structure about the data coming in and out of the API. 
-
-## Demo
-
 
 ## TODO
 - Integration tests. This application is primarily API calls linked together. Although I do like mocking, for something as simple as this, I find it to be overkill.
